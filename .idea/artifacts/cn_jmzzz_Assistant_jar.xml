@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cn.jmzzz.Assistant:jar">
+    <output-path>$PROJECT_DIR$/../../data/app/com.sobte.cqp.jcq/app</output-path>
+    <root id="archive" name="cn.jmzzz.Assistant.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="cn.jmzzz.Assistant" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../fastjson-1.2.62.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/com/sobte/cqp/jcq-coolq/1.2.7/jcq-coolq-1.2.7.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
