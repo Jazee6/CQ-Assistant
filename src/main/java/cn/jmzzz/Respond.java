@@ -37,10 +37,10 @@ public class Respond extends Assistant {
     }
 
     public void sendHitokoto(String msg, long fromGroup) {
-        if (msg.equals("一言")) {
+        if (msg.equals("一言动画")) {
             s = HttpGet.doGet("https://v1.hitokoto.cn/");
             JSONObject object = JSONObject.parseObject(s);
-            CQ.sendGroupMsg(fromGroup, object.getString("hitokoto"));
+            CQ.sendGroupMsg(fromGroup, object.getString("hitokoto?c=a"));
             s = null;
         }
     }
