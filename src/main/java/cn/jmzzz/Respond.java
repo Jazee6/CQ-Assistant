@@ -1,7 +1,7 @@
 package cn.jmzzz;
 
 import com.alibaba.fastjson.JSONObject;
-//import com.sobte.cqp.jcq.event.JcqAppAbstract;
+//import com.sobte.cqp.jcq.event.JcqAppAbstract;1
 
 import java.util.Random;
 
