@@ -1,11 +1,11 @@
 package cn.jmzzz;
 
 import com.alibaba.fastjson.JSONObject;
-//import com.sobte.cqp.jcq.event.JcqAppAbstract;1
+//import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
 import java.util.Random;
 
-public class Respond extends Assistant {
+public class GroupRespond extends Assistant {
     String s;
     //String apiofficial = "https://www.jmzzz.cn/api/";
 
@@ -30,18 +30,16 @@ public class Respond extends Assistant {
         } else if (msg.contains("机器人")) {
             b = true;
         }
-
         if (b && msg.length() <= 5) {
             CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + getRespondString());
         }
     }
 
     public void sendHitokoto(String msg, long fromGroup) {
-        if (msg.equals("一言动画")) {
+        if (msg.equals("一言")) {
             s = HttpGet.doGet("https://v1.hitokoto.cn/");
             JSONObject object = JSONObject.parseObject(s);
-            CQ.sendGroupMsg(fromGroup, object.getString("hitokoto?c=a"));
-            s = null;
+            CQ.sendGroupMsg(fromGroup, object.getString("hitokoto"));
         }
     }
 
@@ -50,9 +48,10 @@ public class Respond extends Assistant {
             UpdateCheck updateCheck = new UpdateCheck();
             if (updateCheck.checkUpdate()) {
                 CQ.sendGroupMsg(fromGroup, "有新版本啦！最新版本：" + updateCheck.getNewver());
-            } else CQ.sendGroupMsg(fromGroup, "暂无新版本~当前版本：" + updateCheck.getVersion());
+            } else CQ.sendGroupMsg(fromGroup, "暂无新版本~当前版本：" + UpdateCheck.getVersion());
         }
     }
+
 
     @Override
     public int menuA() {

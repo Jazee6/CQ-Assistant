@@ -1,8 +1,9 @@
 package cn.jmzzz;
 
 public class UpdateCheck {
+
     String apiofficial = "https://www.jmzzz.cn/api/";
-    String version = "1.0.0";
+    private static final String version = "1.0.0";
     String newver;
     int newver1;
     int newver2;
@@ -33,7 +34,7 @@ public class UpdateCheck {
         return newver;
     }
 
-    public String getVersion() {
+    public static String getVersion() {
         return version;
     }
 }

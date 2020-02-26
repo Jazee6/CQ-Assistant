@@ -30,6 +30,8 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      *
      * @param args 系统参数
      */
+    boolean ifignore;
+
     public static void main(String[] args) {
         // CQ此变量为特殊变量，在JCQ启动时实例化赋值给每个插件，而在测试中可以用CQDebug类来代替他
         CQ = new CQDebug();// new CQDebug("应用目录","应用名称") 可以用此构造器初始化应用的目录
@@ -147,7 +149,18 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
         // 这里处理消息
 //		CQ.sendPrivateMsg(fromQQ, "你发送了这样的消息：" + msg + "\n来自Java插件");
-        return MSG_IGNORE;
+        this.ifignore = false;
+        PersonRespond personRespond = new PersonRespond();
+        personRespond.sendMenu(msg, fromQQ);
+        personRespond.sendAbout(msg, fromQQ);
+        personRespond.sendSubscriptionList(msg, fromQQ);
+        personRespond.sendFunctionList(msg, fromQQ);
+        personRespond.sendSubscriptionHitokoto(msg, fromQQ);
+        personRespond.updateCheck(msg, fromQQ);
+        personRespond.sendHitokoto(msg, fromQQ);
+        if (ifignore) {
+            return MSG_INTERCEPT;
+        } else return MSG_IGNORE;
     }
 
     /**
@@ -187,10 +200,10 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // 这里处理消息
         // CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你发送了这样的消息：" + msg +
         // "\n来自Java插件");
-        Respond respond = new Respond();
-        respond.sendHitokoto(msg, fromGroup);
-        respond.sendRespond(msg, fromGroup, fromQQ);
-        respond.updateCheck(msg, fromGroup);
+        GroupRespond groupRespond = new GroupRespond();
+        groupRespond.sendHitokoto(msg, fromGroup);
+        groupRespond.sendRespond(msg, fromGroup, fromQQ);
+        groupRespond.updateCheck(msg, fromGroup);
         return MSG_IGNORE;
     }
 
@@ -314,7 +327,8 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // REQUEST_ADOPT 通过 REQUEST_REFUSE 拒绝
 
 
-        // CQ.setFriendAddRequest(responseFlag, REQUEST_ADOPT, null); // 同意好友添加请求
+        CQ.setFriendAddRequest(responseFlag, REQUEST_ADOPT, null); // 同意好友添加请求
+        CQ.sendPrivateMsg(fromQQ, "感谢添加，回复“菜单”获取更多内容");
         return MSG_IGNORE;
     }
 
