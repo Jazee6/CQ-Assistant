@@ -58,4 +58,8 @@ public class PersonRespond extends Assistant {
             super.ifignore = true;
         }
     }
+
+    public void getWeather(){
+
+    }
 }
