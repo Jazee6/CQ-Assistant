@@ -301,7 +301,6 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int groupMemberIncrease(int subtype, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ) {
         // 这里处理消息
-
         return MSG_IGNORE;
     }
 
