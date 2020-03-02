@@ -1,2 +1,2 @@
 # CQ-Assistant
-## 更多信息访问(http://www.jmzzz.cn)
+### 更多信息(http://ai.jmzzz.cn)
