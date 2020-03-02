@@ -135,8 +135,6 @@ public class Data extends Assistant {
         }
         return isInSection;
     }
-
-
 }
 
 
