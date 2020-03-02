@@ -10,6 +10,8 @@ import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
+import java.io.IOException;
+
 /**
  * 本文件是JCQ插件的主类<br>
  * <br>
@@ -44,7 +46,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // 开始模拟发送消息
         // 模拟私聊消息
         // 开始模拟QQ用户发送消息，以下QQ全部编造，请勿添加
-//        demo.privateMsg(0, 10001, 2234567819L, "小姐姐约吗", 0);
+        //   demo.privateMsg(0, 10001, 2609059914L, "小姐姐约吗", 0);
 //        demo.privateMsg(0, 10002, 2222222224L, "喵呜喵呜喵呜", 0);
 //        demo.privateMsg(0, 10003, 2111111334L, "可以给我你的微信吗", 0);
 //        demo.privateMsg(0, 10004, 3111111114L, "今天天气真好", 0);
@@ -86,10 +88,11 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int startup() {
         // 获取应用数据目录(无需储存数据时，请将此行注释)
-//		String appDirectory = CQ.getAppDirectory();
+        //appDirectory = CQ.getAppDirectory();
         // 返回如：D:\CoolQ\app\com.sobte.cqp.jcq\app\com.example.demo\
         // 应用的所有数据、配置【必须】存放于此目录，避免给用户带来困扰。
-
+        TimeTask task = new TimeTask();
+        task.sendSubHitokoto();
         return 0;
     }
 
@@ -155,9 +158,15 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         personRespond.sendAbout(msg, fromQQ);
         personRespond.sendSubscriptionList(msg, fromQQ);
         personRespond.sendFunctionList(msg, fromQQ);
-        personRespond.sendSubscriptionHitokoto(msg, fromQQ);
+        try {
+            personRespond.sendSubscriptionHitokoto(msg, fromQQ);
+        } catch (IOException e) {
+            e.printStackTrace();
+            CQ.logError("IOException", "Test");
+        }
         personRespond.updateCheck(msg, fromQQ);
         personRespond.sendHitokoto(msg, fromQQ);
+        personRespond.sendTest(msg, fromQQ);
         if (ifignore) {
             return MSG_INTERCEPT;
         } else return MSG_IGNORE;

@@ -2,6 +2,8 @@ package cn.jmzzz;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.IOException;
+
 public class PersonRespond extends Assistant {
     String s;
 
@@ -33,9 +35,10 @@ public class PersonRespond extends Assistant {
         }
     }
 
-    public void sendSubscriptionHitokoto(String msg, long fromQQ) {
+    public void sendSubscriptionHitokoto(String msg, long fromQQ) throws IOException {
         if (msg.equals("订阅一言")) {
-            CQ.sendPrivateMsg(fromQQ, "正在肝，稍安勿躁");
+            Data data = new Data();
+            data.saveSubHito(fromQQ);
             super.ifignore = true;
         }
     }
@@ -59,7 +62,17 @@ public class PersonRespond extends Assistant {
         }
     }
 
-    public void getWeather(){
+    public void sendTest(String msg, long fromQQ) {
+        if (msg.equals("t") && admin(fromQQ)) {
+            CQ.sendPrivateMsg(fromQQ, "下面执行test1");
+        } else if (msg.equals("t") && !admin(fromQQ)) {
+            CQ.sendPrivateMsg(fromQQ, "没有权限！");
+        }
+    }
 
+    private boolean admin(long fromQQ) {
+        if (fromQQ == 1760017758L) {
+            return true;
+        } else return fromQQ == 2609059914L;
     }
 }
