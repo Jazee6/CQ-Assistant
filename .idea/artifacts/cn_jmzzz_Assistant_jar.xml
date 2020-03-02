@@ -8,6 +8,7 @@
       <element id="module-output" name="cn.jmzzz.Assistant" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../fastjson-1.2.62.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/.m2/repository/com/sobte/cqp/jcq-coolq/1.2.7/jcq-coolq-1.2.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../org.dtools.javaini-v1.1.00.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

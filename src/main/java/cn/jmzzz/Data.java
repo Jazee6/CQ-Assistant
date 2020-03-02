@@ -10,12 +10,14 @@ public class Data extends Assistant {
     public void saveSubHito(long fromQQ) throws IOException {
         File file = new File(f);
         if (!file.exists()) {
-            file.createNewFile();
-            String content = "[Hito]";
-            FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fileWriter);
-            bw.write(content);
-            bw.close();
+            boolean b = file.createNewFile();
+            if (b) {
+                String content = "[Hito]";
+                FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fileWriter);
+                bw.write(content);
+                bw.close();
+            }
         }
         if (readCfgValue(f, "Hito", fromQQ + "", "0").equals("0")) {
             writeCfgValue(f, "Hito", fromQQ + "", "1");
@@ -133,6 +135,9 @@ public class Data extends Assistant {
         }
         return isInSection;
     }
+
+
 }
+
 
 

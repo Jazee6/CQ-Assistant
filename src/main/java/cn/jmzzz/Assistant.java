@@ -91,8 +91,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         //appDirectory = CQ.getAppDirectory();
         // 返回如：D:\CoolQ\app\com.sobte.cqp.jcq\app\com.example.demo\
         // 应用的所有数据、配置【必须】存放于此目录，避免给用户带来困扰。
-        TimeTask task = new TimeTask();
-        task.sendSubHitokoto();
+
         return 0;
     }
 
@@ -118,6 +117,8 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int enable() {
         enable = true;
+        TimeTask task = new TimeTask();
+        task.readContent();
         return 0;
     }
 
