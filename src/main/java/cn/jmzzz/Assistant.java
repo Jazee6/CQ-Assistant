@@ -2,14 +2,17 @@ package cn.jmzzz;
 
 import javax.swing.JOptionPane;
 
+import cn.jmzzz.tools.SetWindow;
 import com.sobte.cqp.jcq.entity.Anonymous;
 import com.sobte.cqp.jcq.entity.CQDebug;
-//import com.sobte.cqp.jcq.entity.GroupFile;
 import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -26,13 +29,15 @@ import java.io.IOException;
  */
 public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
+    String f = CQ.getAppDirectory() + "Sub.ini";
+    String subtimedir = CQ.getAppDirectory() + "Time.ini";
+
     /**
      * 用main方法调试可以最大化的加快开发效率，检测和定位错误位置<br/>
      * 以下就是使用Main方法进行测试的一个简易案例
      *
      * @param args 系统参数
      */
-    boolean ifignore;
 
     public static void main(String[] args) {
         // CQ此变量为特殊变量，在JCQ启动时实例化赋值给每个插件，而在测试中可以用CQDebug类来代替他
@@ -117,8 +122,35 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int enable() {
         enable = true;
+        File file = new File(subtimedir);
+        if (!file.exists()) {
+            boolean b = false;
+            try {
+                b = file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (b) {
+                String content = "[Time]\nh=8\nm=0";
+                FileWriter fileWriter;
+                try {
+                    fileWriter = new FileWriter(file.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fileWriter);
+                    bw.write(content);
+                    bw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         TimeTask task = new TimeTask();
-        task.readContent();
+        try {
+            task.sendHito();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return 0;
     }
 
@@ -153,24 +185,27 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
         // 这里处理消息
 //		CQ.sendPrivateMsg(fromQQ, "你发送了这样的消息：" + msg + "\n来自Java插件");
-        this.ifignore = false;
         PersonRespond personRespond = new PersonRespond();
         personRespond.sendMenu(msg, fromQQ);
         personRespond.sendAbout(msg, fromQQ);
         personRespond.sendSubscriptionList(msg, fromQQ);
         personRespond.sendFunctionList(msg, fromQQ);
+        personRespond.updateCheck(msg, fromQQ);
+        personRespond.sendHitokoto(msg, fromQQ);
+        personRespond.sendTest(msg, fromQQ);
+        personRespond.sendSocial(msg, fromQQ);
+        try {
+            personRespond.sendCancel(msg, fromQQ);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             personRespond.sendSubscriptionHitokoto(msg, fromQQ);
         } catch (IOException e) {
             e.printStackTrace();
             CQ.logError("IOException", "Test");
         }
-        personRespond.updateCheck(msg, fromQQ);
-        personRespond.sendHitokoto(msg, fromQQ);
-        personRespond.sendTest(msg, fromQQ);
-        if (ifignore) {
-            return MSG_INTERCEPT;
-        } else return MSG_IGNORE;
+        return MSG_IGNORE;
     }
 
     /**
@@ -336,7 +371,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // REQUEST_ADOPT 通过 REQUEST_REFUSE 拒绝
 
 
-        CQ.setFriendAddRequest(responseFlag, REQUEST_ADOPT, null); // 同意好友添加请求
+        CQ.setFriendAddRequest(responseFlag, REQUEST_ADOPT, ""); // 同意好友添加请求
         CQ.sendPrivateMsg(fromQQ, "感谢添加，回复“菜单”获取更多内容");
         return MSG_IGNORE;
     }

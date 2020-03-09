@@ -1,7 +1,9 @@
 package cn.jmzzz;
 
+import cn.jmzzz.tools.AppInfo;
+import cn.jmzzz.tools.HttpGet;
+import cn.jmzzz.tools.UpdateCheck;
 import com.alibaba.fastjson.JSONObject;
-//import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
 import java.util.Random;
 
@@ -48,7 +50,7 @@ public class GroupRespond extends Assistant {
             UpdateCheck updateCheck = new UpdateCheck();
             if (updateCheck.checkUpdate()) {
                 CQ.sendGroupMsg(fromGroup, "有新版本啦！最新版本：" + updateCheck.getNewver());
-            } else CQ.sendGroupMsg(fromGroup, "暂无新版本~当前版本：" + UpdateCheck.getVersion());
+            } else CQ.sendGroupMsg(fromGroup, "暂无新版本~当前版本：" + AppInfo.getAppVer());
         }
     }
 

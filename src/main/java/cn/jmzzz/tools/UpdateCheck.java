@@ -1,9 +1,9 @@
-package cn.jmzzz;
+package cn.jmzzz.tools;
 
 public class UpdateCheck {
 
     String apiofficial = "https://www.jmzzz.cn/api/";
-    private static final String version = "1.0.0";
+    String version = AppInfo.getAppVer();
     String newver;
     int newver1;
     int newver2;
@@ -32,9 +32,5 @@ public class UpdateCheck {
 
     public String getNewver() {
         return newver;
-    }
-
-    public static String getVersion() {
-        return version;
     }
 }

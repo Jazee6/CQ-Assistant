@@ -1,30 +1,10 @@
-package cn.jmzzz;
+package cn.jmzzz.tools;
 
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Data extends Assistant {
-    String f = CQ.getAppDirectory() + "Sub.ini";
-
-    public void saveSubHito(long fromQQ) throws IOException {
-        File file = new File(f);
-        if (!file.exists()) {
-            boolean b = file.createNewFile();
-            if (b) {
-                String content = "[Hito]";
-                FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fileWriter);
-                bw.write(content);
-                bw.close();
-            }
-        }
-        if (readCfgValue(f, "Hito", fromQQ + "", "0").equals("0")) {
-            writeCfgValue(f, "Hito", fromQQ + "", "1");
-            CQ.sendPrivateMsg(fromQQ, "订阅一言成功！");
-        } else CQ.sendPrivateMsg(fromQQ, "您已经已阅了一言~");
-    }
-
+public class Ini {
     /**
      * 从ini配置文件中读取变量的值
      *
@@ -69,6 +49,19 @@ public class Data extends Assistant {
             }
         }
         return defaultValue;
+    }
+
+    private static boolean isInSection(String section, String strLine, boolean isInSection) {
+        Pattern p;
+        Matcher m;
+        p = Pattern.compile("\\[\\w+]");
+        m = p.matcher((strLine));
+        if (m.matches()) {
+            p = Pattern.compile("\\[" + section + "]");
+            m = p.matcher(strLine);
+            isInSection = m.matches();
+        }
+        return isInSection;
     }
 
     /**
@@ -122,20 +115,4 @@ public class Data extends Assistant {
             bufferedWriter.close();
         }
     }
-
-    private static boolean isInSection(String section, String strLine, boolean isInSection) {
-        Pattern p;
-        Matcher m;
-        p = Pattern.compile("\\[\\w+]");
-        m = p.matcher((strLine));
-        if (m.matches()) {
-            p = Pattern.compile("\\[" + section + "]");
-            m = p.matcher(strLine);
-            isInSection = m.matches();
-        }
-        return isInSection;
-    }
 }
-
-
-
