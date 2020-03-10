@@ -2,7 +2,6 @@ package cn.jmzzz.tools;
 
 public class UpdateCheck {
 
-    String apiofficial = "https://www.jmzzz.cn/api/";
     String version = AppInfo.getAppVer();
     String newver;
     int newver1;
@@ -17,7 +16,7 @@ public class UpdateCheck {
         ver1 = Integer.parseInt(version.substring(0, 1));
         ver2 = Integer.parseInt(version.substring(2, 3));
         ver3 = Integer.parseInt(version.substring(4, 5));
-        newver = HttpGet.doGet(apiofficial + "A_ver.txt");
+        newver = HttpGet.doGet(AppInfo.getApiOfficial() + "A_ver.txt");
 
         newver1 = Integer.parseInt(newver.substring(0, 1));
         newver2 = Integer.parseInt(newver.substring(2, 3));

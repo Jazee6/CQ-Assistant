@@ -49,8 +49,9 @@ public class GroupRespond extends Assistant {
         if (msg.equals("检查更新")) {
             UpdateCheck updateCheck = new UpdateCheck();
             if (updateCheck.checkUpdate()) {
-                CQ.sendGroupMsg(fromGroup, "有新版本啦！最新版本：" + updateCheck.getNewver());
-            } else CQ.sendGroupMsg(fromGroup, "暂无新版本~当前版本：" + AppInfo.getAppVer());
+                CQ.sendPrivateMsg(fromGroup, "有新版本啦！\n最新版本：" + updateCheck.getNewver() + "\n\n" + HttpGet.doGet(AppInfo.getApiOfficial() + "A_info.txt"));
+            } else
+                CQ.sendPrivateMsg(fromGroup, "暂无新版本~\n当前版本：" + AppInfo.getAppVer() + "\n\n" + AppInfo.getUpdateInfo());
         }
     }
 

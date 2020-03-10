@@ -1,5 +1,6 @@
 package cn.jmzzz;
 
+import cn.jmzzz.tools.Hello;
 import cn.jmzzz.tools.HttpGet;
 import cn.jmzzz.tools.Ini;
 import com.alibaba.fastjson.JSONObject;
@@ -7,9 +8,6 @@ import org.dtools.ini.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class TimeTask extends Assistant {
@@ -41,20 +39,8 @@ public class TimeTask extends Assistant {
                     public void run() {
                         Calendar calendar1 = Calendar.getInstance();
                         if (calendar1.get(Calendar.HOUR_OF_DAY) == hour24 && calendar1.get(Calendar.MINUTE) == min) {
-                            if (Integer.parseInt(getNowTime().substring(0, 2)) <= 11 && Integer.parseInt(getNowTime().substring(0, 2)) >= 4) {
-                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), "早上好~Master！\n\n" + object.getString("hitokoto"));
-                            }
-                            if (Integer.parseInt(getNowTime().substring(0, 2)) < 13 && Integer.parseInt(getNowTime().substring(0, 2)) > 11) {
-                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), "中午好~Master！\n\n" + object.getString("hitokoto"));
-                            }
-                            if (Integer.parseInt(getNowTime().substring(0, 2)) <= 17 && Integer.parseInt(getNowTime().substring(0, 2)) >= 13) {
-                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), "下午好~Master！\n\n" + object.getString("hitokoto"));
-                            }
-                            if (Integer.parseInt(getNowTime().substring(0, 2)) > 17) {
-                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), "晚上好~Master！\n\n" + object.getString("hitokoto"));
-                            }
-                            if (Integer.parseInt(getNowTime().substring(0, 2)) > 0 && Integer.parseInt(getNowTime().substring(0, 2)) < 4) {
-                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), "深夜好~Master！\n\n" + object.getString("hitokoto"));
+                            if (!item.getValue().equals("0")) {
+                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), Hello.getHello() + "\n\n" + object.getString("hitokoto"));
                             }
                         }
                     }
@@ -63,17 +49,11 @@ public class TimeTask extends Assistant {
         }
     }
 
-    public String getNowTime(String dateformat) {
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat(dateformat);
-        return dateFormat.format(now);
-    }
-
-    public String getNowTime() {
-        LocalTime time = LocalTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return time.format(formatter);
-    }
+//    public String getNowTime(String dateformat) {
+//        Date now = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat(dateformat);
+//        return dateFormat.format(now);
+//    }
 }
 
 
