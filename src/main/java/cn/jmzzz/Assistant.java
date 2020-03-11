@@ -185,25 +185,24 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
         // 这里处理消息
 //		CQ.sendPrivateMsg(fromQQ, "你发送了这样的消息：" + msg + "\n来自Java插件");
+
+        PersonRespond.sendMenu(msg, fromQQ);
+        PersonRespond.sendSubscriptionList(msg, fromQQ);
+        PersonRespond.updateCheck(msg, fromQQ);
+        PersonRespond.sendSocial(msg, fromQQ);
+        PersonRespond.sendHitokoto(msg, fromQQ);
+        PersonRespond.sendSubscriptionList(msg, fromQQ);
+        PersonRespond.sendAbout(msg, fromQQ);
+        PersonRespond.sendFunctionList(msg, fromQQ);
+        PersonRespond.sendShortUrl(msg, fromQQ);
+
+        //以下为非静态
         PersonRespond personRespond = new PersonRespond();
-        personRespond.sendMenu(msg, fromQQ);
-        personRespond.sendAbout(msg, fromQQ);
-        personRespond.sendSubscriptionList(msg, fromQQ);
-        personRespond.sendFunctionList(msg, fromQQ);
-        personRespond.updateCheck(msg, fromQQ);
-        personRespond.sendHitokoto(msg, fromQQ);
-        personRespond.sendTest(msg, fromQQ);
-        personRespond.sendSocial(msg, fromQQ);
         try {
             personRespond.sendCancel(msg, fromQQ);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             personRespond.sendSubscriptionHitokoto(msg, fromQQ);
         } catch (IOException e) {
             e.printStackTrace();
-            CQ.logError("IOException", "Test");
         }
         return MSG_IGNORE;
     }
@@ -245,10 +244,10 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // 这里处理消息
         // CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你发送了这样的消息：" + msg +
         // "\n来自Java插件");
-        GroupRespond groupRespond = new GroupRespond();
-        groupRespond.sendHitokoto(msg, fromGroup);
-        groupRespond.sendRespond(msg, fromGroup, fromQQ);
-        groupRespond.updateCheck(msg, fromGroup);
+
+        GroupRespond.sendRespond(msg, fromGroup, fromQQ);
+
+        //以下为非静态方法
         return MSG_IGNORE;
     }
 

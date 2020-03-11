@@ -27,6 +27,7 @@ public class TimeTask extends Assistant {
         for (int i = 0; i < ini.getNumberOfSections(); i++) {
             IniSection sec = ini.getSection(i);
             //获取每个Section的Item
+
             JSONObject object = JSONObject.parseObject(HttpGet.doGet("https://v1.hitokoto.cn/"));
             for (IniItem item : sec.getItems()) {
                 Calendar calendar = Calendar.getInstance();
@@ -40,7 +41,7 @@ public class TimeTask extends Assistant {
                         Calendar calendar1 = Calendar.getInstance();
                         if (calendar1.get(Calendar.HOUR_OF_DAY) == hour24 && calendar1.get(Calendar.MINUTE) == min) {
                             if (!item.getValue().equals("0")) {
-                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), Hello.getHello() + "\n\n" + object.getString("hitokoto"));
+                                CQ.sendPrivateMsg(Long.parseLong(item.getName()), Hello.getHello() + "\n\n" + object.getString("hitokoto") + "\n\t\t\t\t——" + object.getString("from"));
                             }
                         }
                     }
