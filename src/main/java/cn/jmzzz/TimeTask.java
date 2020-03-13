@@ -15,8 +15,8 @@ public class TimeTask extends Assistant {
     //    int second = 0;
 
     public void sendHito() throws IOException {
-        int hour24 = Integer.parseInt(Ini.readCfgValue(subtimedir, "Time", "h", "0"));
-        int min = Integer.parseInt(Ini.readCfgValue(subtimedir, "Time", "m", "0"));
+        int hour24 = Integer.parseInt(Ini.read(subtimedir, "Time", "h"));
+        int min = Integer.parseInt(Ini.read(subtimedir, "Time", "m"));
         IniFileReader reader = new IniFileReader(ini, new File(f));
         try {
             reader.read();

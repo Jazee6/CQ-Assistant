@@ -122,6 +122,8 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int enable() {
         enable = true;
+
+
         File file = new File(subtimedir);
         if (!file.exists()) {
             boolean b = false;
@@ -143,7 +145,30 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
                 }
             }
         }
+        File file1 = new File(f);
+        if (!file1.exists()) {
+            boolean b = false;
+            try {
+                b = file1.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (b) {
+                String content = "[Hito]\n\n[Countdown]";
+                FileWriter fileWriter;
+                try {
+                    fileWriter = new FileWriter(file1.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fileWriter);
+                    bw.write(content);
+                    bw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
+
+        //以下为定时任务
         TimeTask task = new TimeTask();
         try {
             task.sendHito();
@@ -200,7 +225,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         PersonRespond personRespond = new PersonRespond();
         try {
             personRespond.sendCancel(msg, fromQQ);
-            personRespond.sendSubscriptionHitokoto(msg, fromQQ);
+            personRespond.sendSub(msg, fromQQ);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -2,13 +2,7 @@ package cn.jmzzz;
 
 import cn.jmzzz.tools.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-
-import static cn.jmzzz.tools.Ini.readCfgValue;
-import static cn.jmzzz.tools.Ini.writeCfgValue;
 
 public class PersonRespond extends Assistant {
 
@@ -24,34 +18,33 @@ public class PersonRespond extends Assistant {
         }
     }
 
-    public void sendSubscriptionHitokoto(String msg, long fromQQ) throws IOException {
+    public void sendSub(String msg, long fromQQ) throws IOException {
         if (msg.equals("订阅一言")) {
-            File file = new File(f);
-            if (!file.exists()) {
-                boolean b = file.createNewFile();
-                if (b) {
-                    String content = "[Hito]";
-                    FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
-                    BufferedWriter bw = new BufferedWriter(fileWriter);
-                    bw.write(content);
-                    bw.close();
-                }
-            }
-            if (readCfgValue(f, "Hito", fromQQ + "", "0").equals("0")) {
-                writeCfgValue(f, "Hito", fromQQ + "", "1");
+            if (Ini.read(f, "Hito", fromQQ + "").equals("0")) {
+                Ini.write(f, "Hito", fromQQ + "", "1", false);
                 CQ.sendPrivateMsg(fromQQ, "订阅一言成功！\n如需取消请发送取消+对应的项目名");
             } else CQ.sendPrivateMsg(fromQQ, "您已经订阅过了一言~\n如需取消请发送取消+对应的项目名");
         }
     }
 
+    //if (msg.equals("订阅高考")) {
+//        if (readCfgValue(f, "Countdown", fromQQ + "", "0").equals("0")) {
+//            writeCfgValue(f, "Countdown", fromQQ + "", "1");
+//            CQ.sendPrivateMsg(fromQQ, "订阅高考（2021）成功！\n如需取消请发送取消+对应的项目名");
+//        } else CQ.sendPrivateMsg(fromQQ, "您已经订阅过了高考（2021）~\n如需取消请发送取消+对应的项目名");
+//    }
     public void sendCancel(String msg, long fromQQ) throws IOException {
         if (msg.equals("取消一言")) {
-            if (!Ini.readCfgValue(super.f, "Hito", fromQQ + "", "0").equals("0")) {
-                Ini.writeCfgValue(super.f, "Hito", fromQQ + "", "0");
+            if (!Ini.read(f, "Hito", fromQQ + "").equals("0")) {
+                Ini.write(f, "Hito", fromQQ + "", "0", true);
                 CQ.sendPrivateMsg(fromQQ, "取消订阅一言成功！");
             } else CQ.sendPrivateMsg(fromQQ, "您没有订阅一言！");
         }
     }
+
+
+//    public static void sendCheckin(String msg, long fromQQ) {
+//    }
 
     public static void sendFeedback(String code, long fromQQ, String target) {
         CQ.sendPrivateMsg(AppInfo.getAdmin(), "Code:" + code + "\nFrom:" + fromQQ + "\nTarget:" + target);

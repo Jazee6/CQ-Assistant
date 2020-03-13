@@ -33,7 +33,7 @@ public class R {
 
     public static String getHito() {
         JSONObject object = JSONObject.parseObject(HttpGet.doGet("https://v1.hitokoto.cn/"));
-        return object.getString("hitokoto") + "\n\t\t\t\t——" + object.getString("from");
+        return object.getString("hitokoto") + "\n\t\t\t\t\t\t——" + object.getString("from");
     }
 
     public static String getUpdate() {
