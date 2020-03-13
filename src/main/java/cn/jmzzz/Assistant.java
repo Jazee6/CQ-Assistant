@@ -154,7 +154,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
                 e.printStackTrace();
             }
             if (b) {
-                String content = "[Hito]\n\n[Countdown]";
+                String content = "[Hito]\n\n[Soc]";
                 FileWriter fileWriter;
                 try {
                     fileWriter = new FileWriter(file1.getAbsoluteFile());
@@ -224,8 +224,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         //以下为非静态
         PersonRespond personRespond = new PersonRespond();
         try {
-            personRespond.sendCancel(msg, fromQQ);
-            personRespond.sendSub(msg, fromQQ);
+            personRespond.sendSubCancel(msg, fromQQ);
         } catch (IOException e) {
             e.printStackTrace();
         }
