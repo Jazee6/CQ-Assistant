@@ -2,7 +2,7 @@ package cn.jmzzz.tools;
 
 public class AppInfo {
     public static String getAppVer() {
-        return "1.0.3";
+        return "1.0.4";
     }
 
     public static String dwzToken() {

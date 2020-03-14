@@ -171,7 +171,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         //以下为定时任务
         TimeTask task = new TimeTask();
         try {
-            task.sendHito();
+            task.sendSub();
         } catch (IOException e) {
             e.printStackTrace();
         }
