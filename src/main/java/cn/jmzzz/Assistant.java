@@ -154,7 +154,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
                 e.printStackTrace();
             }
             if (b) {
-                String content = "[Hito]\n\n[Soc]";
+                String content = "[Hito]\nget=false\n[Soc]\nget=false";
                 FileWriter fileWriter;
                 try {
                     fileWriter = new FileWriter(file1.getAbsoluteFile());
@@ -167,7 +167,6 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
             }
         }
 
-
         //以下为定时任务
         TimeTask task = new TimeTask();
         try {
@@ -175,7 +174,6 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return 0;
     }
 
@@ -373,7 +371,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int friendAdd(int subtype, int sendTime, long fromQQ) {
         // 这里处理消息
-
+        CQ.sendPrivateMsg(fromQQ, "感谢添加，回复“菜单”获取更多内容");
         return MSG_IGNORE;
     }
 
@@ -390,12 +388,8 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int requestAddFriend(int subtype, int sendTime, long fromQQ, String msg, String responseFlag) {
         // 这里处理消息
-
         // REQUEST_ADOPT 通过 REQUEST_REFUSE 拒绝
-
-
         CQ.setFriendAddRequest(responseFlag, REQUEST_ADOPT, ""); // 同意好友添加请求
-        CQ.sendPrivateMsg(fromQQ, "感谢添加，回复“菜单”获取更多内容");
         return MSG_IGNORE;
     }
 
