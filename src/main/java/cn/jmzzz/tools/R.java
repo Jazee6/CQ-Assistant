@@ -3,32 +3,28 @@ package cn.jmzzz.tools;
 import cn.jmzzz.PersonRespond;
 import com.alibaba.fastjson.JSONObject;
 
-import java.util.Random;
-
-import static com.sobte.cqp.jcq.event.JcqApp.CC;
-
 public class R {
-    public static String getRespondString() {
-        Random random = new Random();
-        int r1 = random.nextInt(2);
-        String s = null;
-        switch (r1) {
-            case 0:
-                s = "\n我在" + CC.face(32);
-                break;
-            case 1:
-                s = "\n我在这~";
-                break;
-        }
-        return s;
-    }
+//    public static String getRespondString() {
+//        Random random = new Random();
+//        int r1 = random.nextInt(2);
+//        String s = null;
+//        switch (r1) {
+//            case 0:
+//                s = "\n我在" + CC.face(32);
+//                break;
+//            case 1:
+//                s = "\n我在这~";
+//                break;
+//        }
+//        return s;
+//    }
 
     public static String getAbout() {
-        return "关于\n简洁的助手类机器人，基于CoolQ的JCQ\n当前版本：稳定版" + AppInfo.getAppVer() + "\n发送“检查更新”查看最新版本\n本项目在Github开源，访问官网了解更多";
+        return "关于\n简洁的订阅助理，基于CoolQ的JCQ\n当前版本：" + AppInfo.getAppVer() + "\n发送“检查更新”查看最新版本\n本项目在Github开源，访问官网了解更多";
     }
 
     public static String getFunctionList() {
-        return "功能列表\n1.群应答\n2.群一言\n3.社会语录\n4.短网址\n详细内容请查看官网";
+        return "功能列表\n1.一言\n2.短网址\n3.自定义称呼\n详细内容请查看官网\n\n有新点子或报错请发送反馈+内容哦~";
     }
 
     public static String getHito() {
@@ -56,9 +52,9 @@ public class R {
                 return object1.getString("ShortUrl");
             } else {
                 PersonRespond.sendFeedback(object1.getString("Code"), fromQQ, "dwz");
-                return "错误(" + object1.getString("Code") + ")已经反馈给开发者";
+                return "错误(" + object1.getString("Code") + ")已经反馈回1号基地";
             }
-        } else return "输入有误，请输入短网址+链接\n（链接长度大于7）";
+        } else return "输入有误，请输入短网址+链接\n（链接长度大于7哦~）";
     }
 
     public static String getSocial(long fromQQ) {
@@ -67,7 +63,7 @@ public class R {
             return object.getString("msg");
         } else {
             PersonRespond.sendFeedback(object.getString("code"), fromQQ, "social");
-            return "错误(" + object.getString("code") + ")已经反馈给开发者";
+            return "错误(" + object.getString("code") + ")已经反馈回1号基地";
         }
     }
 }

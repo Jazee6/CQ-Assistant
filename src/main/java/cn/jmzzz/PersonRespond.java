@@ -8,13 +8,13 @@ public class PersonRespond extends Assistant {
 
     public static void sendMenu(String msg, long fromQQ) {
         if (msg.equals("菜单")) {
-            CQ.sendPrivateMsg(fromQQ, "菜单\n1.订阅列表\n2.功能列表\n3.关于\n请回复序号或名称");
+            CQ.sendPrivateMsg(fromQQ, "菜单\n1.订阅列表\n2.功能列表\n3.关于\n请回复序号或名称~");
         }
     }
 
     public static void sendSubscriptionList(String msg, long fromQQ) {
         if (msg.equals("订阅列表") || msg.equals("1")) {
-            CQ.sendPrivateMsg(fromQQ, "订阅列表\n1.一言\n请回复订阅+项目名");
+            CQ.sendPrivateMsg(fromQQ, "订阅列表\n1.一言\n2.社会语录\n请回复订阅+项目名~");
         }
     }
 
@@ -23,8 +23,8 @@ public class PersonRespond extends Assistant {
         if (msg.equals("订阅" + name1)) {
             if (Ini.read(f, "Hito", fromQQ + "").equals("0")) {
                 Ini.write(f, "Hito", fromQQ + "", "1", false);
-                CQ.sendPrivateMsg(fromQQ, "订阅" + name1 + "成功！\n如需取消请发送取消+对应的项目名");
-            } else CQ.sendPrivateMsg(fromQQ, "您已经订阅过了" + name1 + "~\n如需取消请发送取消+对应的项目名");
+                CQ.sendPrivateMsg(fromQQ, "订阅" + name1 + "成功！\n如需取消请发送取消+对应的项目名~");
+            } else CQ.sendPrivateMsg(fromQQ, "您已经订阅过了" + name1 + "~\n如需取消请发送取消+对应的项目名~");
         }
         if (msg.equals("取消" + name1)) {
             if (!Ini.read(f, "Hito", fromQQ + "").equals("0")) {
@@ -36,8 +36,8 @@ public class PersonRespond extends Assistant {
         if (msg.equals("订阅" + name2)) {
             if (Ini.read(f, "Soc", fromQQ + "").equals("0")) {
                 Ini.write(f, "Soc", fromQQ + "", "1", false);
-                CQ.sendPrivateMsg(fromQQ, "订阅" + name2 + "成功！\n如需取消请发送取消+对应的项目名");
-            } else CQ.sendPrivateMsg(fromQQ, "您已经订阅过了" + name2 + "~\n如需取消请发送取消+对应的项目名");
+                CQ.sendPrivateMsg(fromQQ, "订阅" + name2 + "成功！\n如需取消请发送取消+对应的项目名~");
+            } else CQ.sendPrivateMsg(fromQQ, "您已经订阅过了" + name2 + "~\n如需取消请发送取消+对应的项目名~");
         }
         if (msg.equals("取消" + name2)) {
             if (!Ini.read(f, "Soc", fromQQ + "").equals("0")) {
@@ -45,11 +45,24 @@ public class PersonRespond extends Assistant {
                 CQ.sendPrivateMsg(fromQQ, "取消订阅" + name2 + "成功！");
             } else CQ.sendPrivateMsg(fromQQ, "您没有订阅" + name2 + "！");
         }
+        if (msg.startsWith("设置称呼")) {
+            if (msg.length() == 4 || msg.equals("设置称呼0")) {
+                CQ.sendPrivateMsg(fromQQ, "格式有误，请发送设置称呼+称呼哦~");
+            } else if (msg.length() > 10) {
+                CQ.sendPrivateMsg(fromQQ, "称呼太长了吧 Master~");
+            } else {
+                Ini.write(f, "Call", fromQQ + "", msg.substring(4), !Ini.read(f, "Call", fromQQ + "").equals("0"));
+                CQ.sendPrivateMsg(fromQQ, "改变称呼啦~\n" + Hello.getHello() + Ini.read(f, "Call", fromQQ + ""));
+            }
+        }
     }
 
-
-//    public static void sendCheckin(String msg, long fromQQ) {
-//    }
+    public static void sendFeedback(String msg, long fromQQ) {
+        if (msg.startsWith("反馈")) {
+            sendFeedback("personnal", fromQQ, msg.substring(2));
+            CQ.sendPrivateMsg(fromQQ, "已经反馈回1号基地~");
+        }
+    }
 
     public static void sendFeedback(String code, long fromQQ, String target) {
         CQ.sendPrivateMsg(AppInfo.getAdmin(), "Code:" + code + "\nFrom:" + fromQQ + "\nTarget:" + target);
@@ -97,7 +110,3 @@ public class PersonRespond extends Assistant {
         }
     }
 }
-
-//    public void sendFeedback(String msg, long fromQQ) {
-//        if (msg.substring(0, 2).equals("反馈"))
-//    }

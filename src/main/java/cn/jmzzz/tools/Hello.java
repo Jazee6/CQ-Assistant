@@ -6,14 +6,14 @@ import java.time.format.DateTimeFormatter;
 public class Hello {
     public static String getHello() {
         if (Integer.parseInt(getNowTime().substring(0, 2)) < 11 && Integer.parseInt(getNowTime().substring(0, 2)) >= 4) {
-            return "早上好~Master！";
+            return "早上好~";
         } else if (Integer.parseInt(getNowTime().substring(0, 2)) < 13 && Integer.parseInt(getNowTime().substring(0, 2)) >= 11) {
-            return "中午好~Master！";
+            return "中午好~";
         } else if (Integer.parseInt(getNowTime().substring(0, 2)) <= 17 && Integer.parseInt(getNowTime().substring(0, 2)) >= 13) {
-            return "下午好~Master！";
+            return "下午好~";
         } else if (Integer.parseInt(getNowTime().substring(0, 2)) > 17) {
-            return "晚上好~Master！";
-        } else return "深夜好~Master！";
+            return "晚上好~";
+        } else return "深夜好~";
     }
 
     public static String getNowTime() {

@@ -13,66 +13,67 @@ public class TimeTask extends Assistant {
     IniFile ini = new BasicIniFile();
     String hito;
     String soc;
+    int i;
+    int i2;
+    byte hour24;
+    byte min;
 
     public void sendSub() throws IOException {
-        byte hour24 = Byte.parseByte(Ini.read(subtimedir, "Time", "h"));
-        byte min = Byte.parseByte(Ini.read(subtimedir, "Time", "m"));
-        IniFileReader reader = new IniFileReader(ini, new File(f));
-        reader.read();
-        Set<String> set = new HashSet<>();
-        //获取ini文件的所有Section
-        for (int i = 0; i < ini.getNumberOfSections(); i++) {
-            IniSection sec = ini.getSection(i);
-            //获取每个Section的Item
-            for (IniItem item : sec.getItems()) {
-                if (!item.getValue().equals("0") && !item.getName().equals("get")) {
-                    set.add(item.getName());
-                }
-            }
-        }
+        hour24 = Byte.parseByte(Ini.read(subtimedir, "Time", "h"));
+        min = Byte.parseByte(Ini.read(subtimedir, "Time", "m"));
 
-        byte min2 = (byte) (min - 1);
         Calendar calendar2 = Calendar.getInstance();
         calendar2.set(Calendar.HOUR_OF_DAY, hour24);
-        calendar2.set(Calendar.MINUTE, min2);
+        calendar2.set(Calendar.MINUTE, min);
+        calendar2.set(Calendar.SECOND, 0);
         Date time2 = calendar2.getTime();
         Timer timer2 = new Timer();
         timer2.scheduleAtFixedRate(new TimerTask() {
             public void run() {
+                Set<String> set = new HashSet<>();
+                IniFileReader reader = new IniFileReader(ini, new File(f));
                 try {
-                    Ini.write(f, "Hito", "get", "false", true);
-                    Ini.write(f, "Soc", "get", "false", true);
-                    CQ.logDebug("write", "success");
+                    hour24 = Byte.parseByte(Ini.read(subtimedir, "Time", "h"));
+                    min = Byte.parseByte(Ini.read(subtimedir, "Time", "m"));
+                    reader.read();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        }, time2, 1000 * 60 * 60 * 24);// 这里设定将延时每天固定执行
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hour24);
-        calendar.set(Calendar.MINUTE, min);
-        Date time = calendar.getTime();
-        for (Object object : set) {
-            CQ.logDebug("QQList", (String) object);
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    Calendar calendar1 = Calendar.getInstance();
-                    if (calendar1.get(Calendar.HOUR_OF_DAY) == hour24 && calendar1.get(Calendar.MINUTE) == min) {
-                        try {
-                            CQ.sendPrivateMsg(Long.parseLong(String.valueOf(object)), Hello.getHello() + getContent(String.valueOf(object)));
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                i = 0;
+                i2 = 0;
+                //获取ini文件的所有Section
+                for (int i = 0; i < ini.getNumberOfSections(); i++) {
+                    IniSection sec = ini.getSection(i);
+                    //获取每个Section的Item
+                    for (IniItem item : sec.getItems()) {
+                        if (!item.getValue().equals("0")) {
+                            set.add(item.getName());
                         }
                     }
                 }
-            }, time, 1000 * 60 * 60 * 24);// 这里设定将延时每天固定执行
-        }
+                CQ.logDebug("QQ", String.valueOf(set.size()));
+                for (Object object : set) {
+                    Calendar calendar1 = Calendar.getInstance();
+                    if (calendar1.get(Calendar.HOUR_OF_DAY) == hour24 && calendar1.get(Calendar.MINUTE) == min) {
+                        {
+                            try {
+                                CQ.sendPrivateMsg(Long.parseLong(String.valueOf(object)), Hello.getHello() + getContent(String.valueOf(object)));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }, time2, 1000 * 60 * 60 * 24);// 这里设定将延时每天固定执行
     }
 
     private String getContent(String QQ) throws IOException {
         String s = "";
+        IniSection section3 = ini.getSection("Call");
+        if (section3.hasItem(QQ)) {
+            s += Ini.read(f, "Call", QQ) + "！";
+        } else s += "Master!";
         IniSection section = ini.getSection("Hito");
         if (section.hasItem(QQ)) {
             if (!String.valueOf(section.getItem(QQ).getValue()).equals("0")) {
@@ -88,19 +89,19 @@ public class TimeTask extends Assistant {
         return s;
     }
 
-    private String getHito() throws IOException {
-        if (!Boolean.parseBoolean(Ini.read(f, "Hito", "get"))) {
+    private String getHito() {
+        if (i == 0) {
             hito = R.getHito();
-            Ini.write(f, "Hito", "get", "true", true);
         }
+        i++;
         return hito;
     }
 
-    private String getSoc(long QQ) throws IOException {
-        if (!Boolean.parseBoolean(Ini.read(f, "Soc", "get"))) {
+    private String getSoc(long QQ) {
+        if (i2 == 0) {
             soc = R.getSocial(QQ);
-            Ini.write(f, "Soc", "get", "true", true);
         }
+        i2++;
         return soc;
     }
 }

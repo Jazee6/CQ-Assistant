@@ -42,7 +42,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public static void main(String[] args) {
         // CQ此变量为特殊变量，在JCQ启动时实例化赋值给每个插件，而在测试中可以用CQDebug类来代替他
         CQ = new CQDebug();// new CQDebug("应用目录","应用名称") 可以用此构造器初始化应用的目录
-        CQ.logInfo("[JCQ] TEST Demo", "测试启动");// 现在就可以用CQ变量来执行任何想要的操作了
+//        CQ.logInfo("[JCQ] TEST Demo", "测试启动");// 现在就可以用CQ变量来执行任何想要的操作了
         // 要测试主类就先实例化一个主类对象
         Assistant demo = new Assistant();
         // 下面对主类进行各方法测试,按照JCQ运行过程，模拟实际情况
@@ -154,7 +154,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
                 e.printStackTrace();
             }
             if (b) {
-                String content = "[Hito]\nget=false\n[Soc]\nget=false";
+                String content = "[Hito]\n\n[Soc]\n\n[Call]";
                 FileWriter fileWriter;
                 try {
                     fileWriter = new FileWriter(file1.getAbsoluteFile());
@@ -218,6 +218,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         PersonRespond.sendAbout(msg, fromQQ);
         PersonRespond.sendFunctionList(msg, fromQQ);
         PersonRespond.sendShortUrl(msg, fromQQ);
+        PersonRespond.sendFeedback(msg, fromQQ);
 
         //以下为非静态
         PersonRespond personRespond = new PersonRespond();
@@ -250,7 +251,6 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
             @SuppressWarnings("unused")
             Anonymous anonymous = CQ.getAnonymous(fromAnonymous);
         }
-
         // 解析CQ码案例 如：[CQ:at,qq=100000]
         // 解析CQ码 常用变量为 CC(CQCode) 此变量专为CQ码这种特定格式做了解析和封装
         // CC.analysis();// 此方法将CQ码解析为可直接读取的对象
@@ -267,7 +267,6 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你发送了这样的消息：" + msg +
         // "\n来自Java插件");
 
-        GroupRespond.sendRespond(msg, fromGroup, fromQQ);
 
         //以下为非静态方法
         return MSG_IGNORE;
@@ -371,7 +370,6 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
      */
     public int friendAdd(int subtype, int sendTime, long fromQQ) {
         // 这里处理消息
-        CQ.sendPrivateMsg(fromQQ, "感谢添加，回复“菜单”获取更多内容");
         return MSG_IGNORE;
     }
 
@@ -389,7 +387,14 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public int requestAddFriend(int subtype, int sendTime, long fromQQ, String msg, String responseFlag) {
         // 这里处理消息
         // REQUEST_ADOPT 通过 REQUEST_REFUSE 拒绝
+
         CQ.setFriendAddRequest(responseFlag, REQUEST_ADOPT, ""); // 同意好友添加请求
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        CQ.sendPrivateMsg(fromQQ, "感谢添加，回复“菜单”获取更多内容");
         return MSG_IGNORE;
     }
 
@@ -443,5 +448,4 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         JOptionPane.showMessageDialog(null, "关于窗口还在开发中");
         return 0;
     }
-
 }
