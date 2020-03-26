@@ -5,14 +5,6 @@ public class AppInfo {
         return "1.1.0b3";
     }
 
-    public static String dwzToken() {
-        return "a9d924268bbb4ac7da780ee29d8ae49c";
-    }
-
-    public static String dwzRequest() {
-        return "https://dwz.cn/admin/v2/create";
-    }
-
     public static String getApiOfficial() {
         return "https://www.jmzzz.cn/api/";
     }
@@ -37,7 +29,7 @@ public class AppInfo {
 //        return "https://v1.alapi.cn/api/tianqi/now?city=";
 //    }
 
-    public static String getWeaForecastApi() {
-        return "https://v1.alapi.cn/api/tianqi/grid?city=";
-    }
+//    public static String getWeaForecastApi() {
+//        return "https://v1.alapi.cn/api/tianqi/grid?city=";
+//    }
 }
