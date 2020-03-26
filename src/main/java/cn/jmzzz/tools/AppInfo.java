@@ -31,5 +31,5 @@ public class AppInfo {
 
 //    public static String getWeaForecastApi() {
 //        return "https://v1.alapi.cn/api/tianqi/grid?city=";
-//    }
+//
 }
