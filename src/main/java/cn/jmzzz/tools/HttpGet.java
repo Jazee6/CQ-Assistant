@@ -46,26 +46,23 @@ public class HttpGet {
             e.printStackTrace();
         } finally {
             // 关闭资源
-            if (null != br) {
+            if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
-            if (null != is) {
+            if (is != null) {
                 try {
                     is.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
             assert connection != null;
             connection.disconnect();// 关闭远程连接
         }
-
         return result;
     }
 }

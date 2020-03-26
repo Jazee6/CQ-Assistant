@@ -43,7 +43,6 @@ public class HttpPost {
             }
             reader.close();
 
-
             return res.toString();
         } catch (IOException e) {
             e.printStackTrace();

@@ -2,6 +2,8 @@ package cn.jmzzz;
 
 import javax.swing.JOptionPane;
 
+import cn.jmzzz.tools.IniFileReaderU;
+import cn.jmzzz.tools.IniFileWriterU;
 import cn.jmzzz.tools.SetWindow;
 import com.sobte.cqp.jcq.entity.Anonymous;
 import com.sobte.cqp.jcq.entity.CQDebug;
@@ -9,10 +11,9 @@ import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
+import org.dtools.ini.*;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -123,48 +124,69 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public int enable() {
         enable = true;
 
-
         File file = new File(subtimedir);
         if (!file.exists()) {
-            boolean b = false;
             try {
-                b = file.createNewFile();
+                if (file.createNewFile()) {
+                    CQ.logDebug("初始化", "进度50%");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            if (b) {
-                String content = "[Time]\nh=8\nm=0";
-                FileWriter fileWriter;
-                try {
-                    fileWriter = new FileWriter(file.getAbsoluteFile());
-                    BufferedWriter bw = new BufferedWriter(fileWriter);
-                    bw.write(content);
-                    bw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
+
+        IniFile iniFile = new BasicIniFile();
+        IniFileReaderU rad = new IniFileReaderU(iniFile, file);
+        IniFileWriterU wir = new IniFileWriterU(iniFile, file);
+        try {
+            rad.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!iniFile.hasSection("Time")) {
+            IniSection iniSection = iniFile.addSection("Time");
+            IniItem iniItem = iniSection.addItem("h");
+            iniItem.setValue("8");
+            IniItem iniItem2 = iniSection.addItem("m");
+            iniItem2.setValue("0");
+        }
+        try {
+            wir.write();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         File file1 = new File(f);
         if (!file1.exists()) {
-            boolean b = false;
             try {
-                b = file1.createNewFile();
+                if (file1.createNewFile()) {
+                    CQ.logDebug("初始化", "进度99%");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (b) {
-                String content = "[Hito]\n\n[Soc]\n\n[Call]";
-                FileWriter fileWriter;
-                try {
-                    fileWriter = new FileWriter(file1.getAbsoluteFile());
-                    BufferedWriter bw = new BufferedWriter(fileWriter);
-                    bw.write(content);
-                    bw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        }
+        IniFile iniFile1 = new BasicIniFile();
+        IniFileReaderU rad1 = new IniFileReaderU(iniFile1, file1);
+        IniFileWriterU wir1 = new IniFileWriterU(iniFile1, file1);
+        try {
+            rad1.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!iniFile1.hasSection("Hito")) {
+            iniFile1.addSection("Hito");
+        }
+        if (!iniFile1.hasSection("Soc")) {
+            iniFile1.addSection("Soc");
+        }
+        if (!iniFile1.hasSection("Call")) {
+            iniFile1.addSection("Call");
+        }
+        try {
+            wir1.write();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         //以下为定时任务
@@ -217,8 +239,9 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         PersonRespond.sendSubscriptionList(msg, fromQQ);
         PersonRespond.sendAbout(msg, fromQQ);
         PersonRespond.sendFunctionList(msg, fromQQ);
-        PersonRespond.sendShortUrl(msg, fromQQ);
+        PersonRespond.sendRespond(msg, fromQQ);
         PersonRespond.sendFeedback(msg, fromQQ);
+        PersonRespond.sendRes(msg, fromQQ);
 
         //以下为非静态
         PersonRespond personRespond = new PersonRespond();
