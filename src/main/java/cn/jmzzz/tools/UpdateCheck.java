@@ -1,5 +1,6 @@
 package cn.jmzzz.tools;
 
+@Deprecated
 public class UpdateCheck {
 
     String version = AppInfo.getAppVer();

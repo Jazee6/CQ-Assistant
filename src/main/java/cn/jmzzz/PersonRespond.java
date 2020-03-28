@@ -8,7 +8,7 @@ public class PersonRespond extends Assistant {
 
     public static void sendMenu(String msg, long fromQQ) {
         if (msg.equals("菜单")) {
-            CQ.sendPrivateMsg(fromQQ, "菜单\n1.订阅列表\n2.功能列表\n3.关于\n请回复项目名称~");
+            CQ.sendPrivateMsg(fromQQ, "菜单\n1.订阅列表\n2.功能列表\n3.关于\n4.反馈\n请回复项目名称~\nV" + AppInfo.getAppVer());
         }
     }
 
@@ -74,9 +74,12 @@ public class PersonRespond extends Assistant {
     }
 
     public static void sendFeedback(String msg, long fromQQ) {
-        if (msg.startsWith("反馈")) {
-            sendFeedback("personnal", fromQQ, msg.substring(2));
+        if (msg.startsWith("反馈") && msg.length() > 3) {
+            sendFeedback("000", fromQQ, msg.substring(2));
             CQ.sendPrivateMsg(fromQQ, "已经反馈回1号基地~");
+        }
+        if (msg.equals("反馈")) {
+            CQ.sendPrivateMsg(fromQQ, "请发送反馈+内容~");
         }
     }
 
@@ -110,12 +113,6 @@ public class PersonRespond extends Assistant {
     public static void sendHitokoto(String msg, long fromQQ) {
         if (msg.equals("一言")) {
             CQ.sendPrivateMsg(fromQQ, R.getHito());
-        }
-    }
-
-    public static void updateCheck(String msg, long fromQQ) {
-        if (msg.equals("检查更新")) {
-            CQ.sendPrivateMsg(fromQQ, R.getUpdate());
         }
     }
 

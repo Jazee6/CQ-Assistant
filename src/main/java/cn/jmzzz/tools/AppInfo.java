@@ -2,7 +2,7 @@ package cn.jmzzz.tools;
 
 public class AppInfo {
     public static String getAppVer() {
-        return "1.1.0b3";
+        return "1.1.0";
     }
 
     public static String getApiOfficial() {
@@ -31,5 +31,5 @@ public class AppInfo {
 
 //    public static String getWeaForecastApi() {
 //        return "https://v1.alapi.cn/api/tianqi/grid?city=";
-//
+//}
 }

@@ -233,10 +233,8 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 
         PersonRespond.sendMenu(msg, fromQQ);
         PersonRespond.sendSubscriptionList(msg, fromQQ);
-        PersonRespond.updateCheck(msg, fromQQ);
         PersonRespond.sendSocial(msg, fromQQ);
         PersonRespond.sendHitokoto(msg, fromQQ);
-        PersonRespond.sendSubscriptionList(msg, fromQQ);
         PersonRespond.sendAbout(msg, fromQQ);
         PersonRespond.sendFunctionList(msg, fromQQ);
         PersonRespond.sendRespond(msg, fromQQ);

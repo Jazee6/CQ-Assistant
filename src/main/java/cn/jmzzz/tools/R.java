@@ -24,7 +24,7 @@ public class R {
     }
 
     public static String getAbout() {
-        return "关于\n简洁的订阅助理，基于CoolQ的JCQ\n当前版本：" + AppInfo.getAppVer() + "\n发送“检查更新”查看最新版本\n本项目在Github开源，访问官网了解更多";
+        return "关于\n简洁的订阅助理，基于CoolQ的JCQ\n当前版本：" + AppInfo.getAppVer() + "\n本项目在Github开源，访问官网了解更多";
     }
 
     public static String getFunctionList() {
@@ -36,12 +36,6 @@ public class R {
         return object.getString("hitokoto") + "\n\t\t\t\t——" + object.getString("from");
     }
 
-    public static String getUpdate() {
-        UpdateCheck updateCheck = new UpdateCheck();
-        if (updateCheck.checkUpdate()) {
-            return "有新版本啦！\n最新版本：" + updateCheck.getNewver() + "\n\n" + "更新内容请访问Github";
-        } else return "暂无新版本~\n当前版本：" + AppInfo.getAppVer() + "\n\n" + "更多内容请访问官网";
-    }
 
 //    public static String getDwz(String msg, long fromQQ) {
 //        if (msg.length() > 10) {
