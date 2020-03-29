@@ -117,7 +117,7 @@ public class PersonRespond extends Assistant {
     }
 
     public static void sendSocial(String msg, long fromQQ) {
-        if (msg.equals("社会语录")) {
+        if (msg.equals("社会语录") || msg.equals("精神小伙")) {
             CQ.sendPrivateMsg(fromQQ, R.getSocial());
         }
         if (msg.equals("社会三连")) {
@@ -151,5 +151,15 @@ public class PersonRespond extends Assistant {
         if (b && msg.length() <= 5) {
             CQ.sendPrivateMsg(fromQQ, R.getRespondString());
         }
+    }
+
+    @Override
+    public int menuA() {
+        return super.menuA();
+    }
+
+    @Override
+    public int menuB() {
+        return super.menuB();
     }
 }

@@ -2,7 +2,7 @@ package cn.jmzzz.tools;
 
 public class AppInfo {
     public static String getAppVer() {
-        return "1.1.0";
+        return "1.2.0b1";
     }
 
     public static String getApiOfficial() {
@@ -22,7 +22,7 @@ public class AppInfo {
     }
 
     public static long getAdmin() {
-        return 2609059914L;
+        return 1760017758L;
     }
 
 //    public static String getWeaApi() {
