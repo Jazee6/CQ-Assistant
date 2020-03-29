@@ -420,7 +420,6 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public int requestAddGroup(int subtype, int sendTime, long fromGroup, long fromQQ, String msg,
                                String responseFlag) {
         // 这里处理消息
-
         /*
           REQUEST_ADOPT 通过 REQUEST_REFUSE 拒绝 REQUEST_GROUP_ADD 群添加 REQUEST_GROUP_INVITE
           群邀请
