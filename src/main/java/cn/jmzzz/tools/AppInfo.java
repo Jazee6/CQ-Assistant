@@ -2,7 +2,7 @@ package cn.jmzzz.tools;
 
 public class AppInfo {
     public static String getAppVer() {
-        return "1.2.0b1";
+        return "1.2.0b2";
     }
 
     public static String getApiOfficial() {

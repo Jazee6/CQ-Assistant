@@ -2,10 +2,7 @@ package cn.jmzzz;
 
 import javax.swing.JOptionPane;
 
-import cn.jmzzz.tools.AppInfo;
-import cn.jmzzz.tools.IniFileReaderU;
-import cn.jmzzz.tools.IniFileWriterU;
-import cn.jmzzz.tools.SetWindow;
+import cn.jmzzz.tools.*;
 import com.sobte.cqp.jcq.entity.Anonymous;
 import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
@@ -28,11 +25,14 @@ import java.io.IOException;
  * 酷Q核心操作类}), {@link JcqAppAbstract#CC
  * CC}({@link com.sobte.cqp.jcq.entity 酷Q码操作类}), 具体功能可以查看文档
  */
-public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
+public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest, Runnable {
 
     String f = CQ.getAppDirectory() + "Sub.ini";
     String subtimedir = CQ.getAppDirectory() + "Time.ini";
     static String g = CQ.getAppDirectory() + "Group.ini";
+    static String d = CQ.getAppDirectory() + "Data.ini";
+
+    GE ge;
 
     /**
      * 打包后将不会调用 请不要在此事件中写其他代码
@@ -123,7 +123,7 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         if (!file1.exists()) {
             try {
                 if (file1.createNewFile()) {
-                    CQ.logDebug("初始化", "进度98%");
+                    CQ.logDebug("初始化", "进度97%");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -156,13 +156,23 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         if (!file2.exists()) {
             try {
                 if (file2.createNewFile()) {
-                    CQ.logDebug("初始化", "进度99%");
+                    CQ.logDebug("初始化", "进度98%");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+        File file3 = new File(d);
+        if (!file3.exists()) {
+            try {
+                if (file3.createNewFile()) {
+                    CQ.logDebug("初始化", "进度99%");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         //以下为定时任务
         TimeTask task = new TimeTask();
         try {
@@ -205,23 +215,26 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // 这里处理消息
 //		CQ.sendPrivateMsg(fromQQ, "你发送了这样的消息：" + msg + "\n来自Java插件");
 
-        PersonRespond.sendMenu(msg, fromQQ);
-        PersonRespond.sendSubscriptionList(msg, fromQQ);
-        PersonRespond.sendSocial(msg, fromQQ);
-        PersonRespond.sendHitokoto(msg, fromQQ);
-        PersonRespond.sendAbout(msg, fromQQ);
-        PersonRespond.sendFunctionList(msg, fromQQ);
-        PersonRespond.sendRespond(msg, fromQQ);
-        PersonRespond.sendFeedback(msg, fromQQ);
-        PersonRespond.sendRes(msg, fromQQ);
+        new Thread(() -> {
+            PersonRespond.sendMenu(msg, fromQQ);
+            PersonRespond.sendSubscriptionList(msg, fromQQ);
+            PersonRespond.sendSocial(msg, fromQQ);
+            PersonRespond.sendHitokoto(msg, fromQQ);
+            PersonRespond.sendAbout(msg, fromQQ);
+            PersonRespond.sendFunctionList(msg, fromQQ);
+            PersonRespond.sendRespond(msg, fromQQ);
+            PersonRespond.sendFeedback(msg, fromQQ);
+            PersonRespond.sendRes(msg, fromQQ);
 
-        //以下为非静态
-        PersonRespond personRespond = new PersonRespond();
-        try {
-            personRespond.sendSubCancel(msg, fromQQ);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            //以下为非静态
+            PersonRespond personRespond = new PersonRespond();
+            try {
+                personRespond.sendSubCancel(msg, fromQQ);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         return MSG_IGNORE;
     }
 
@@ -261,21 +274,31 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         // 这里处理消息
         // CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你发送了这样的消息：" + msg +
         // "\n来自Java插件");
-        GroupRespond.sendRespond(msg, fromGroup, fromQQ);
-        GroupRespond.sendMenu(msg, fromGroup);
-        GroupRespond.sendHitokoto(msg, fromGroup);
-        GroupRespond.sendSocial(msg, fromGroup);
-        try {
-            GE.sendGE(fromGroup, fromQQ);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            GE.openGE(msg, fromGroup, fromQQ);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        new Thread(() -> {
+            GroupRespond.sendRespond(msg, fromGroup, fromQQ);
+            GroupRespond.sendMenu(msg, fromGroup);
+            GroupRespond.sendHitokoto(msg, fromGroup);
+            GroupRespond.sendSocial(msg, fromGroup);
+            try {
+                GE.openGE(msg, fromGroup, fromQQ);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+
         //以下为非静态方法
+
+        if (ge == null) {
+            ge = new GE();
+        }
+        try {
+            ge.sendGE(fromGroup, fromQQ);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return MSG_IGNORE;
     }
 
@@ -455,5 +478,10 @@ public class Assistant extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     public int menuB() {
         JOptionPane.showMessageDialog(null, "关于窗口还在开发中");
         return 0;
+    }
+
+    @Override
+    public void run() {
+
     }
 }

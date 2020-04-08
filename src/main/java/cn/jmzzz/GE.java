@@ -11,36 +11,56 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
-public class GE extends Assistant implements Runnable {
-    public static void sendGE(long fromGroup, long fromQQ) throws IOException {
+public class GE extends Assistant {
+    File fileg;
+    File filed;
 
-        File file = new File(g);
-        IniFile iniFile = new BasicIniFile();
-        IniFileReaderU readerU = new IniFileReaderU(iniFile, file);
-        readerU.read();
-        if (!iniFile.hasSection(fromGroup + "")) {
-            iniFile.addSection(fromGroup + "");
-            IniFileWriterU writerU = new IniFileWriterU(iniFile, file);
-            writerU.write();
-            Ini.write(g, fromGroup + "", "open", "1");
+    public void sendGE(long fromGroup, long fromQQ) throws IOException {
+        if (fileg == null) {
+            fileg = new File(g);
         }
-        if (iniFile.hasSection(fromGroup + "")) {
-            if (!Ini.read(g, fromGroup + "", "open").equals("0")) {
-                Date day = new Date();
-                SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-                String s = Ini.read(g, fromGroup + "", fromQQ + "");
-                if (!s.equals("0")) {
-                    if (Integer.parseInt(df.format(day).substring(2, 8)) > Integer.parseInt(s.substring(2, 8))) {
-                        Ini.write(g, fromGroup + "", fromQQ + "", df.format(day));
-                        CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "欢迎入群");
-                    }
-                } else {
-                    Ini.write(g, fromGroup + "", fromQQ + "", df.format(day));
-                    CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "欢迎入群~");
-                }
+        Ini inig = new Ini(fileg, fromGroup + "", "open");
+        if (inig.nothasSec()) {
+            inig.writeSec();
+            inig.write("1");
+        }
+
+        if (!inig.read().equals("0")) {
+            if (filed == null) {
+                filed = new File(d);
+            }
+            Ini money = new Ini(filed, fromQQ + "", "mon");
+            Ini exp = new Ini(filed, fromQQ + "", "exp");
+            if (money.nothasSec()) {
+                money.writeSec();
+            }
+            Date day = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+            int timenow = Integer.parseInt(df.format(day).substring(2, 8));
+            Ini initime = new Ini(fileg, fromGroup + "", fromQQ + "");
+            String lasttime = initime.read();
+            if (lasttime.equals("0")) {
+                initime.write("00000000000000");
+                lasttime = "00000000000000";
+            }
+            if (timenow > Integer.parseInt(lasttime.substring(2, 8))) {
+                Random random = new Random();
+                int getexp = random.nextInt(6) + 5;
+                int getmoney = random.nextInt(51) + 100;
+
+                initime.write(df.format(day));
+                String expnow = exp.read();
+                String monnow = money.read();
+                int exp1 = Integer.parseInt(expnow) + getexp;
+                money.writeint(Integer.parseInt(monnow) + getmoney);
+                exp.writeint(exp1);
+
+                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "欢迎入群~\n" + "EXP:" + expnow + "(+" + getexp + ")" + "\nZ币:" + monnow + "(+" + getmoney + ")\n等级：" + getLevel(exp1));
             }
         }
+
     }
 
     public static void openGE(String msg, long fromGroup, long fromQQ) throws IOException {
@@ -81,8 +101,13 @@ public class GE extends Assistant implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-
+    static String getLevel(int exp) {
+        if (exp < 20) {
+            return "LV.1";
+        } else if (exp < 200) {
+            return "LV.2";
+        } else if (exp < 2000) {
+            return "LV.3";
+        } else return "LV.4";
     }
 }
